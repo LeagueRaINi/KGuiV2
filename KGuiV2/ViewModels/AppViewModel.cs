@@ -118,6 +118,11 @@ namespace KGuiV2.ViewModels
         public bool RamtestStopOnError { get; set; } = true;
 
         /// <summary>
+        /// Indicates if <see cref="Console.Beep"/> should be used if the test encounters an error and <see cref="RamtestStopOnError"/> is enabled.
+        /// </summary>
+        public bool RamtestBeepOnError { get; set; } = true;
+
+        /// <summary>
         /// The amount of ramtest errors.
         /// </summary>
         public uint RamtestErrorCount { get; set; }
@@ -235,7 +240,7 @@ namespace KGuiV2.ViewModels
                     if (RamtestStopCommand.CanExecute(null))
                         RamtestStopCommand.Execute(null);
 
-                    if (RamtestErrorCount > 0)
+                    if (RamtestBeepOnError && RamtestErrorCount > 0)
                         Console.Beep(1000, 300);
                 }
             }

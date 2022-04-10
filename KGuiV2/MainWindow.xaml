@@ -150,6 +150,13 @@
                             <CheckBox Content="Stress FPU" IsChecked="{Binding RamtestStressFpu, Mode=TwoWay}"/>
                         </DockPanel>
                     </GroupBox>
+                    <GroupBox DockPanel.Dock="Top" Header="Sounds" HorizontalAlignment="Stretch" Margin="5,0,5,0">
+                        <DockPanel Margin="5,5,5,5" LastChildFill="false">
+                            <Grid DockPanel.Dock="Top" Margin="0,0,0,2">
+                                <CheckBox Content="Beep on error" HorizontalAlignment="Left" VerticalAlignment="Center" IsChecked="{Binding RamtestBeepOnError, Mode=TwoWay}"/>
+                            </Grid>
+                        </DockPanel>
+                    </GroupBox>
                 </DockPanel>
             </TabItem>
             <TabItem Header="History">
