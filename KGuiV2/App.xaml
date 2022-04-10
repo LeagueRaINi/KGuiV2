@@ -1,0 +1,11 @@
+﻿<Application x:Class="KGuiV2.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:KGuiV2"
+             xmlns:converters="clr-namespace:KGuiV2.Helpers.ValueConverters"
+             Startup="App_OnStartup">
+    <Application.Resources>
+        <converters:IsGreaterThanConverter x:Key="IsGreaterThanConverter"/>
+        <converters:InverseBooleanConverter x:Key="InverseBooleanConverter"/>
+    </Application.Resources>
+</Application>

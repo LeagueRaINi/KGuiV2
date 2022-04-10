@@ -1,0 +1,163 @@
+﻿<Window x:Class="KGuiV2.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:KGuiV2"
+        Height="415"
+        Width="250"
+        ResizeMode="NoResize"
+        Background="#FFF0F0F0"
+        DataContext="{Binding RelativeSource={RelativeSource Self}}">
+    <FrameworkElement.Style>
+        <Style TargetType="{x:Type Window}">
+            <Setter Property="Window.Title" Value="KGui"/>
+            <Style.Triggers>
+                <MultiDataTrigger>
+                    <MultiDataTrigger.Conditions>
+                        <Condition Binding="{Binding RamtestIsRunning, Mode=OneWay}" Value="True"/>
+                        <Condition Binding="{Binding RamtestStopOnTaskScope, Mode=OneWay}" Value="True"/>
+                    </MultiDataTrigger.Conditions>
+                    <Setter Property="Window.Title" Value="{Binding Path=RamtestFinishedIn, Mode=OneWay, StringFormat='Finished in {0:hh\\:mm\\:ss}', ConverterCulture='de-DE'}"/>
+                </MultiDataTrigger>
+            </Style.Triggers>
+        </Style>
+    </FrameworkElement.Style>
+    <Grid>
+        <TabControl Margin="5,5,5,5">
+            <TabItem Header="Testing">
+                <DockPanel>
+                    <GroupBox DockPanel.Dock="Top" Header="System Status" HorizontalAlignment="Stretch" Margin="5,0,5,0">
+                        <DockPanel Margin="5,5,5,5">
+                            <Grid DockPanel.Dock="Top">
+                                <TextBlock Text="Total Memory" HorizontalAlignment="Left"/>
+                                <TextBlock HorizontalAlignment="Right" Text="{Binding SystemMemoryTotal, Mode=OneWay, StringFormat='{}{0:N0} MB', ConverterCulture='de-DE'}"/>
+                            </Grid>
+                            <Grid DockPanel.Dock="Top">
+                                <TextBlock Text="Free Memory" HorizontalAlignment="Left"/>
+                                <TextBlock HorizontalAlignment="Right" Text="{Binding SystemMemoryFree, Mode=OneWay, StringFormat='{}{0:N0} MB', ConverterCulture='de-DE'}">
+                                    <FrameworkElement.ToolTip>
+                                        <ToolTip ContentStringFormat='{}{0:N0} %' Content="{Binding SystemMemoryFreePercentage, Mode=OneWay, ConverterCulture='de-DE'}"/>
+                                    </FrameworkElement.ToolTip>
+                                </TextBlock>
+                            </Grid>
+                        </DockPanel>
+                    </GroupBox>
+                    <GroupBox DockPanel.Dock="Top" Header="Test Settings" HorizontalAlignment="Stretch" Margin="5,0,5,0">
+                        <DockPanel Margin="5,5,5,5">
+                            <Grid DockPanel.Dock="Top" Margin="0,0,0,2">
+                                <TextBlock Text="Megabytes" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                                <TextBox PreviewTextInput="TextBox_PreviewTextInput" CommandManager.PreviewExecuted="TextBox_PreviewExecuted" Width="60" HorizontalAlignment="Right" VerticalContentAlignment="Center" HorizontalContentAlignment="Right" Text="{Binding RamtestMegabytes, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding RamtestIsRunning, Converter={StaticResource InverseBooleanConverter}}"/>
+                            </Grid>
+                            <Grid DockPanel.Dock="Top" Margin="0,0,0,2">
+                                <TextBlock Text="Threads" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                                <TextBox PreviewTextInput="TextBox_PreviewTextInput" CommandManager.PreviewExecuted="TextBox_PreviewExecuted" Width="60" HorizontalAlignment="Right" VerticalContentAlignment="Center" HorizontalContentAlignment="Right" Text="{Binding RamtestThreads, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding RamtestIsRunning, Converter={StaticResource InverseBooleanConverter}}"/>
+                            </Grid>
+                            <Grid DockPanel.Dock="Top" Margin="0,0,0,5">
+                                <TextBlock Text="Task Scope" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                                <TextBox PreviewTextInput="TextBox_PreviewTextInput" CommandManager.PreviewExecuted="TextBox_PreviewExecuted" Width="60" HorizontalAlignment="Right" VerticalContentAlignment="Center" HorizontalContentAlignment="Right" Text="{Binding RamtestTaskScope, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding RamtestIsRunning, Converter={StaticResource InverseBooleanConverter}}"/>
+                            </Grid>
+                            <CheckBox DockPanel.Dock="Top" Content="Stop on Error" IsChecked="{Binding RamtestStopOnError, Mode=TwoWay}" IsEnabled="{Binding RamtestIsRunning, Converter={StaticResource InverseBooleanConverter}}"/>
+                            <CheckBox DockPanel.Dock="Top" Content="Stop on Task Scope" IsChecked="{Binding RamtestStopOnTaskScope, Mode=TwoWay}" IsEnabled="{Binding RamtestIsRunning, Converter={StaticResource InverseBooleanConverter}}"/>
+                        </DockPanel>
+                    </GroupBox>
+                    <GroupBox DockPanel.Dock="Top" Header="Test Status" HorizontalAlignment="Stretch" Margin="5,0,5,0">
+                        <DockPanel Margin="5,5,5,5">
+                            <Grid DockPanel.Dock="Top">
+                                <TextBlock Text="Duration" HorizontalAlignment="Left"/>
+                                <TextBlock HorizontalAlignment="Right" Text="{Binding RamtestDuration, Mode=OneWay, StringFormat='hh\\:mm\\:ss', ConverterCulture='de-DE'}"/>
+                            </Grid>
+                            <Grid DockPanel.Dock="Top">
+                                <TextBlock Text="Coverage" HorizontalAlignment="Left"/>
+                                <TextBlock HorizontalAlignment="Right" Text="{Binding RamtestCoverage, Mode=OneWay, StringFormat=P0, ConverterCulture='de-DE'}">
+                                    <FrameworkElement.ToolTip>
+                                        <ToolTip>
+                                            <FrameworkElement.Style>
+                                                <Style TargetType="{x:Type ToolTip}">
+                                                <Setter Property="UIElement.Visibility" Value="Hidden"/>
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding RamtestIsRunning, Mode=OneWay}" Value="True">
+                                                        <Setter Property="UIElement.Visibility" Value="Visible"/>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                                </Style>
+                                            </FrameworkElement.Style>
+                                            <TextBlock>
+                                                <TextBlock.Text>
+                                                    <MultiBinding StringFormat="{}{0:N0} in {1}" ConverterCulture='de-DE'>
+                                                        <Binding Path="RamtestNextFullCoveragePercent" Mode="OneWay" />
+                                                        <Binding Path="RamtestNextFullCoverageIn" Mode="OneWay"/>
+                                                    </MultiBinding>
+                                                </TextBlock.Text>
+                                            </TextBlock>
+                                        </ToolTip>
+                                  </FrameworkElement.ToolTip>
+                                </TextBlock>
+                            </Grid>
+                            <Grid DockPanel.Dock="Top">
+                                <TextBlock Text="Errors" HorizontalAlignment="Left"/>
+                                <TextBlock HorizontalAlignment="Right" Text="{Binding RamtestErrorCount, Mode=OneWay}">
+                                    <FrameworkElement.Style>
+                                        <Style TargetType="{x:Type TextBlock}" BasedOn="{StaticResource {x:Type TextBlock}}">
+                                            <Setter Property="Control.Foreground" Value="Green"/>
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding RamtestErrorCount, Mode=OneWay, Converter={StaticResource IsGreaterThanConverter}, ConverterParameter=0}" Value="True">
+                                                    <Setter Property="Control.Foreground" Value="Red"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </FrameworkElement.Style>
+                                </TextBlock>
+                            </Grid>
+                            <Grid DockPanel.Dock="Top">
+                                <TextBlock Text="Speed" HorizontalAlignment="Left"/>
+                                <TextBlock HorizontalAlignment="Right" Text="{Binding RamtestSpeed, Mode=OneWay, StringFormat='{}{0:N3} MB/s', ConverterCulture='de-DE'}"/>
+                            </Grid>
+                        </DockPanel>
+                    </GroupBox>
+                    <Button DockPanel.Dock="Bottom" Margin="5,5,5,5">
+                        <FrameworkElement.Style>
+                            <Style TargetType="{x:Type Button}" BasedOn="{StaticResource {x:Type Button}}">
+                                <Setter Property="ContentControl.Content" Value="Start"/>
+                                <Setter Property="Command" Value="{Binding RamtestStartCommand}"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding RamtestIsRunning, Mode=TwoWay}" Value="True">
+                                        <Setter Property="ContentControl.Content" Value="Stop"/>
+                                        <Setter Property="Command" Value="{Binding RamtestStopCommand}"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </FrameworkElement.Style>
+                    </Button>
+                </DockPanel>
+            </TabItem>
+            <TabItem Header="Advanced">
+                <DockPanel LastChildFill="false">
+                    <GroupBox DockPanel.Dock="Top" Header="Advanced" HorizontalAlignment="Stretch" Margin="5,0,5,0">
+                        <DockPanel Margin="5,5,5,5">
+                            <Grid DockPanel.Dock="Top" Margin="0,0,0,2">
+                                <TextBlock Text="CPU Cache" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                                <ComboBox Width="120" HorizontalAlignment="Right" ItemsSource="{Binding RamtestCpuCacheModes}" SelectedItem="{Binding RamtestCpuCacheMode, Mode=TwoWay}"/>
+                            </Grid>
+                            <Grid DockPanel.Dock="Top">
+                                <TextBlock Text="RNG" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                                <ComboBox Width="120" HorizontalAlignment="Right" ItemsSource="{Binding RamtestRngModes}" SelectedItem="{Binding RamtestRngMode, Mode=TwoWay}"/>
+                            </Grid>
+                        </DockPanel>
+                    </GroupBox>
+                    <GroupBox DockPanel.Dock="Top" Header="Experimental" HorizontalAlignment="Stretch" Margin="5,0,5,0">
+                        <DockPanel Margin="5,5,5,5">
+                            <CheckBox Content="Stress FPU" IsChecked="{Binding RamtestStressFpu, Mode=TwoWay}"/>
+                        </DockPanel>
+                    </GroupBox>
+                </DockPanel>
+            </TabItem>
+            <TabItem Header="History">
+                <Grid/>
+            </TabItem>
+            <TabItem Header="About">
+                <Grid/>
+            </TabItem>
+        </TabControl>
+    </Grid>
+</Window>
