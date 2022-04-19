@@ -9,7 +9,6 @@ A custom gui for karhu ramtest with a few extras
 * No Telemtrie
 
 # TODO
-* Persistent settings
 * Log
 
 # Requirements

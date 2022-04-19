@@ -3,25 +3,28 @@
   <Profiles />
   <Settings>
     <Setting Name="RamtestCpuCacheMode" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">0</Value>
+      <Value Profile="(Default)">3</Value>
     </Setting>
     <Setting Name="RamtestRngMode" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">0</Value>
     </Setting>
     <Setting Name="RamtestStopOnError" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">False</Value>
+      <Value Profile="(Default)">True</Value>
     </Setting>
     <Setting Name="RamtestStopOnTaskScope" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">False</Value>
+      <Value Profile="(Default)">True</Value>
     </Setting>
     <Setting Name="RamtestTaskScope" Type="System.Double" Scope="User">
       <Value Profile="(Default)">10000</Value>
     </Setting>
-    <Setting Name="RamtestThreads" Type="System.Int32" Scope="User">
+    <Setting Name="RamtestThreads" Type="System.UInt32" Scope="User">
       <Value Profile="(Default)">1</Value>
     </Setting>
-    <Setting Name="RamtestMegabytes" Type="System.UInt32" Scope="User">
-      <Value Profile="(Default)">0</Value>
+    <Setting Name="RamtestBeepOnError" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="RamtestStressFpu" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
     </Setting>
   </Settings>
 </SettingsFile>

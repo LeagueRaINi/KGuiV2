@@ -16,15 +16,15 @@ namespace KGuiV2.Helpers
         readonly Action<object> _execute;
 
         /// <inheritdoc/>
-        public bool CanExecute(object parameter)
+        public bool CanExecute(object? parameter)
             => _canExecute(parameter);
 
         /// <inheritdoc/>
-        public void Execute(object parameter)
+        public void Execute(object? parameter)
             => _execute(parameter);
 
         /// <inheritdoc/>
-        public event EventHandler CanExecuteChanged
+        public event EventHandler? CanExecuteChanged
         {
             add    => CommandManager.RequerySuggested += value;
             remove => CommandManager.RequerySuggested -= value;

@@ -5,9 +5,10 @@ using System.Collections.Generic;
 using System.Windows.Threading;
 using System.ComponentModel;
 using System.Windows.Input;
+using System.Diagnostics;
 using System.Linq;
 using System;
-using System.Diagnostics;
+using System.Windows;
 
 namespace KGuiV2.ViewModels
 {
@@ -16,7 +17,7 @@ namespace KGuiV2.ViewModels
         /// <summary>
         /// The background update timer.
         /// </summary>
-        DispatcherTimer _updateTimer;
+        readonly DispatcherTimer _updateTimer;
 
         /// <summary>
         /// The tick at which the ramtest started.
@@ -24,7 +25,7 @@ namespace KGuiV2.ViewModels
         long _ramtestStartTick;
 
         /// <inheritdoc/>
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler? PropertyChanged;
 
         /// <summary>
         /// The ramtest cpu cache modes.
@@ -145,7 +146,7 @@ namespace KGuiV2.ViewModels
         /// <summary>
         /// The total number of cpu threads.
         /// </summary>
-        public uint SystemCpuThreads = (uint)(Environment.ProcessorCount);
+        public uint SystemCpuThreads = (uint)Environment.ProcessorCount;
 
         /// <summary>
         /// Command for starting the ramtest.
@@ -162,6 +163,8 @@ namespace KGuiV2.ViewModels
         /// </summary>
         public AppViewModel()
         {
+            LoadUserSettings();
+
             _updateTimer = new DispatcherTimer(DispatcherPriority.Background);
             _updateTimer.Interval = TimeSpan.FromMilliseconds(150);
             _updateTimer.Tick += UpdaterOnTick;
@@ -169,6 +172,48 @@ namespace KGuiV2.ViewModels
 
             RamtestStartCommand = new RelayCommand(CanStartRamtest, StartRamtest);
             RamtestStopCommand = new RelayCommand(CanStopRamtest, StopRamtest);
+        }
+
+        /// <summary>
+        /// Gets called when the application window is closing.
+        /// </summary>
+        public void OnWindowClosing()
+        {
+            if (RamtestStopCommand.CanExecute(null))
+                RamtestStopCommand.Execute(null);
+
+            SaveUserSettings();
+        }
+
+        /// <summary>
+        /// Saves all user settings.
+        /// </summary>
+        void SaveUserSettings()
+        {
+            Properties.Settings.Default.RamtestRngMode = (int)RamtestRngMode;
+            Properties.Settings.Default.RamtestCpuCacheMode = (int)RamtestCpuCacheMode;
+            Properties.Settings.Default.RamtestThreads = RamtestThreads;
+            Properties.Settings.Default.RamtestStopOnError = RamtestStopOnError;
+            Properties.Settings.Default.RamtestStopOnTaskScope = RamtestStopOnTaskScope;
+            Properties.Settings.Default.RamtestTaskScope = RamtestTaskScope;
+            Properties.Settings.Default.RamtestBeepOnError = RamtestBeepOnError;
+            Properties.Settings.Default.RamtestStressFpu = RamtestStressFpu;
+            Properties.Settings.Default.Save();
+        }
+
+        /// <summary>
+        /// Loads all user settings.
+        /// </summary>
+        void LoadUserSettings()
+        {
+            RamtestRngMode = (Ramtest.RngMode)Properties.Settings.Default.RamtestRngMode;
+            RamtestCpuCacheMode = (Ramtest.CpuCacheMode)Properties.Settings.Default.RamtestCpuCacheMode;
+            RamtestThreads = Properties.Settings.Default.RamtestThreads;
+            RamtestStopOnError = Properties.Settings.Default.RamtestStopOnError;
+            RamtestStopOnTaskScope = Properties.Settings.Default.RamtestStopOnTaskScope;
+            RamtestTaskScope = Properties.Settings.Default.RamtestTaskScope;
+            RamtestBeepOnError = Properties.Settings.Default.RamtestBeepOnError;
+            RamtestStressFpu = Properties.Settings.Default.RamtestStressFpu;
         }
 
         /// <summary>
@@ -189,7 +234,7 @@ namespace KGuiV2.ViewModels
             && RamtestMegabytes >= 50
             && RamtestMegabytes <= SystemMemoryFree
             && RamtestThreads > 0
-            && RamtestThreads <= Environment.ProcessorCount;
+            && RamtestThreads <= SystemCpuThreads;
 
         /// <summary>
         /// Stops the ramtest.
@@ -224,8 +269,8 @@ namespace KGuiV2.ViewModels
 
             if (Kernel32.GlobalMemoryStatusEx(ref memoryStatusEx))
             {
-                SystemMemoryTotal = Convert.ToDouble(memoryStatusEx.TotalPhys / 1024 / 1024);
-                SystemMemoryFree = Convert.ToDouble(memoryStatusEx.AvailPhys / 1024 / 1024);
+                SystemMemoryTotal = memoryStatusEx.TotalPhys / 1024 / 1024;
+                SystemMemoryFree = memoryStatusEx.AvailPhys / 1024 / 1024;
             }
 
             if (RamtestIsRunning)
@@ -236,7 +281,6 @@ namespace KGuiV2.ViewModels
 
                 if ((RamtestStopOnError && RamtestErrorCount > 0) || (RamtestStopOnTaskScope && RamtestTaskScope <= RamtestCoveragePercent))
                 {
-                    // TODO!: seems wank
                     if (RamtestStopCommand.CanExecute(null))
                         RamtestStopCommand.Execute(null);
 

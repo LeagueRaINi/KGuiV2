@@ -14,7 +14,7 @@ namespace KGuiV2
         /// <summary>
         /// The app mutex is for identifying if an instance of our app is already running.
         /// </summary>
-        Mutex _instanceMutex;
+        Mutex? _instanceMutex;
 
         /// <summary>
         /// Gets called when our application starts up.

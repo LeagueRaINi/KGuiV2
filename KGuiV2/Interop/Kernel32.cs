@@ -8,7 +8,7 @@ namespace KGuiV2.Interop
         [StructLayout(LayoutKind.Sequential)]
         public struct MemoryStatusEx
         {
-            public uint  Length = Convert.ToUInt32(Marshal.SizeOf<MemoryStatusEx>());
+            public uint  Length;
             public uint  MemoryLoad;
             public ulong TotalPhys;
             public ulong AvailPhys;
@@ -17,6 +17,19 @@ namespace KGuiV2.Interop
             public ulong TotalVirtual;
             public ulong AvailVirtual;
             public ulong AvailExtendedVirtual;
+
+            public MemoryStatusEx()
+            {
+                Length = (uint)Marshal.SizeOf<MemoryStatusEx>();
+                MemoryLoad = 0;
+                TotalPhys = 0;
+                AvailPhys = 0;
+                TotalPageFile = 0;
+                AvailPageFile = 0;
+                TotalVirtual = 0;
+                AvailVirtual = 0;
+                AvailExtendedVirtual = 0;
+            }
         }
 
         /// <summary>

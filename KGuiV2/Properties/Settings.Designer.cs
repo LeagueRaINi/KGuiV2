@@ -12,7 +12,7 @@ namespace KGuiV2.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "17.0.3.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "17.1.0.0")]
     internal sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase {
         
         private static Settings defaultInstance = ((Settings)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new Settings())));
@@ -25,7 +25,7 @@ namespace KGuiV2.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        [global::System.Configuration.DefaultSettingValueAttribute("3")]
         public int RamtestCpuCacheMode {
             get {
                 return ((int)(this["RamtestCpuCacheMode"]));
@@ -49,7 +49,7 @@ namespace KGuiV2.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
         public bool RamtestStopOnError {
             get {
                 return ((bool)(this["RamtestStopOnError"]));
@@ -61,7 +61,7 @@ namespace KGuiV2.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
         public bool RamtestStopOnTaskScope {
             get {
                 return ((bool)(this["RamtestStopOnTaskScope"]));
@@ -86,9 +86,9 @@ namespace KGuiV2.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("1")]
-        public int RamtestThreads {
+        public uint RamtestThreads {
             get {
-                return ((int)(this["RamtestThreads"]));
+                return ((uint)(this["RamtestThreads"]));
             }
             set {
                 this["RamtestThreads"] = value;
@@ -97,13 +97,25 @@ namespace KGuiV2.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("0")]
-        public uint RamtestMegabytes {
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool RamtestBeepOnError {
             get {
-                return ((uint)(this["RamtestMegabytes"]));
+                return ((bool)(this["RamtestBeepOnError"]));
             }
             set {
-                this["RamtestMegabytes"] = value;
+                this["RamtestBeepOnError"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool RamtestStressFpu {
+            get {
+                return ((bool)(this["RamtestStressFpu"]));
+            }
+            set {
+                this["RamtestStressFpu"] = value;
             }
         }
     }

@@ -3,12 +3,20 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         xmlns:local="clr-namespace:KGuiV2"
+        xmlns:behaviors="clr-namespace:KGuiV2.Helpers.Behaviors"
+        x:Name="AppWindow"
         Height="415"
         Width="250"
         ResizeMode="NoResize"
         Background="#FFF0F0F0"
         DataContext="{Binding RelativeSource={RelativeSource Self}}">
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Closing">
+            <i:CallMethodAction MethodName="OnWindowClosing" TargetObject="{Binding Path=DataContext, ElementName=AppWindow, Mode=OneWay}"/>
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
     <FrameworkElement.Style>
         <Style TargetType="{x:Type Window}">
             <Setter Property="Window.Title" Value="KGui"/>
@@ -47,15 +55,27 @@
                         <DockPanel Margin="5,5,5,5">
                             <Grid DockPanel.Dock="Top" Margin="0,0,0,2">
                                 <TextBlock Text="Megabytes" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                                <TextBox PreviewTextInput="TextBox_PreviewTextInput" CommandManager.PreviewExecuted="TextBox_PreviewExecuted" Width="60" HorizontalAlignment="Right" VerticalContentAlignment="Center" HorizontalContentAlignment="Right" Text="{Binding RamtestMegabytes, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding RamtestIsRunning, Converter={StaticResource InverseBooleanConverter}}"/>
+                                <TextBox Width="60" HorizontalAlignment="Right" VerticalContentAlignment="Center" HorizontalContentAlignment="Right" Text="{Binding RamtestMegabytes, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding RamtestIsRunning, Converter={StaticResource InverseBooleanConverter}}">
+                                    <i:Interaction.Behaviors>
+                                        <behaviors:NumericTextBoxBehavior/>
+                                    </i:Interaction.Behaviors>
+                                </TextBox>
                             </Grid>
                             <Grid DockPanel.Dock="Top" Margin="0,0,0,2">
                                 <TextBlock Text="Threads" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                                <TextBox PreviewTextInput="TextBox_PreviewTextInput" CommandManager.PreviewExecuted="TextBox_PreviewExecuted" Width="60" HorizontalAlignment="Right" VerticalContentAlignment="Center" HorizontalContentAlignment="Right" Text="{Binding RamtestThreads, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding RamtestIsRunning, Converter={StaticResource InverseBooleanConverter}}"/>
+                                <TextBox Width="60" HorizontalAlignment="Right" VerticalContentAlignment="Center" HorizontalContentAlignment="Right" Text="{Binding RamtestThreads, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding RamtestIsRunning, Converter={StaticResource InverseBooleanConverter}}">
+                                    <i:Interaction.Behaviors>
+                                        <behaviors:NumericTextBoxBehavior/>
+                                    </i:Interaction.Behaviors>
+                                </TextBox>
                             </Grid>
                             <Grid DockPanel.Dock="Top" Margin="0,0,0,5">
                                 <TextBlock Text="Task Scope" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                                <TextBox PreviewTextInput="TextBox_PreviewTextInput" CommandManager.PreviewExecuted="TextBox_PreviewExecuted" Width="60" HorizontalAlignment="Right" VerticalContentAlignment="Center" HorizontalContentAlignment="Right" Text="{Binding RamtestTaskScope, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding RamtestIsRunning, Converter={StaticResource InverseBooleanConverter}}"/>
+                                <TextBox Width="60" HorizontalAlignment="Right" VerticalContentAlignment="Center" HorizontalContentAlignment="Right" Text="{Binding RamtestTaskScope, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding RamtestIsRunning, Converter={StaticResource InverseBooleanConverter}}">
+                                    <i:Interaction.Behaviors>
+                                        <behaviors:NumericTextBoxBehavior/>
+                                    </i:Interaction.Behaviors>
+                                </TextBox>
                             </Grid>
                             <CheckBox DockPanel.Dock="Top" Content="Stop on Error" IsChecked="{Binding RamtestStopOnError, Mode=TwoWay}" IsEnabled="{Binding RamtestIsRunning, Converter={StaticResource InverseBooleanConverter}}"/>
                             <CheckBox DockPanel.Dock="Top" Content="Stop on Task Scope" IsChecked="{Binding RamtestStopOnTaskScope, Mode=TwoWay}" IsEnabled="{Binding RamtestIsRunning, Converter={StaticResource InverseBooleanConverter}}"/>
