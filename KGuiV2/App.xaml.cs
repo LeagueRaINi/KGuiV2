@@ -12,30 +12,24 @@ namespace KGuiV2
     public partial class App : Application
     {
         /// <summary>
-        /// The app mutex is for identifying if an instance of our app is already running.
-        /// </summary>
-        Mutex? _instanceMutex;
-
-        /// <summary>
         /// Gets called when our application starts up.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         void App_OnStartup(object sender, StartupEventArgs e)
         {
-            _instanceMutex = new Mutex(true, "Local\\KGui", out var isNewMutex);
-
-            if (!isNewMutex)
+            using (var mutex = new Mutex(true, "Local\\KGui"))
             {
-                // TODO!: try to find the process and call SetForegroundWindow on it
-                Environment.Exit(0);
+                if (!mutex.WaitOne(0, false))
+                {
+                    // TODO!
+                    Environment.Exit(0);
+                }
+
+                MainWindow = new MainWindow();
+                MainWindow.DataContext = new AppViewModel();
+                MainWindow.ShowDialog();
             }
-
-            GC.KeepAlive(_instanceMutex);
-
-            this.MainWindow = new MainWindow();
-            this.MainWindow.DataContext = new AppViewModel();
-            this.MainWindow.Show();
         }
     }
 }

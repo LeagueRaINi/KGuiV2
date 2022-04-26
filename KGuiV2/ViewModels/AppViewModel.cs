@@ -8,7 +8,6 @@ using System.Windows.Input;
 using System.Diagnostics;
 using System.Linq;
 using System;
-using System.Windows;
 
 namespace KGuiV2.ViewModels
 {
@@ -56,7 +55,6 @@ namespace KGuiV2.ViewModels
         /// The cpu cache mode to use for the ramtest.
         /// </summary>
         public Ramtest.CpuCacheMode RamtestCpuCacheMode { get; set; } = Ramtest.CpuCacheMode.Enabled;
-
 
         /// <summary>
         /// The rng mode to use for the ramtest.

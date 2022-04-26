@@ -35,7 +35,7 @@
         <TabControl Margin="5,5,5,5">
             <TabItem Header="Testing">
                 <DockPanel>
-                    <GroupBox DockPanel.Dock="Top" Header="System Status" HorizontalAlignment="Stretch" Margin="5,0,5,0">
+                    <GroupBox DockPanel.Dock="Top" Header="System" HorizontalAlignment="Stretch" Margin="5,0,5,0">
                         <DockPanel Margin="5,5,5,5">
                             <Grid DockPanel.Dock="Top">
                                 <TextBlock Text="Total Memory" HorizontalAlignment="Left"/>
@@ -51,7 +51,7 @@
                             </Grid>
                         </DockPanel>
                     </GroupBox>
-                    <GroupBox DockPanel.Dock="Top" Header="Test Settings" HorizontalAlignment="Stretch" Margin="5,0,5,0">
+                    <GroupBox DockPanel.Dock="Top" Header="Settings" HorizontalAlignment="Stretch" Margin="5,0,5,0">
                         <DockPanel Margin="5,5,5,5">
                             <Grid DockPanel.Dock="Top" Margin="0,0,0,2">
                                 <TextBlock Text="Megabytes" HorizontalAlignment="Left" VerticalAlignment="Center"/>
@@ -81,7 +81,7 @@
                             <CheckBox DockPanel.Dock="Top" Content="Stop on Task Scope" IsChecked="{Binding RamtestStopOnTaskScope, Mode=TwoWay}" IsEnabled="{Binding RamtestIsRunning, Converter={StaticResource InverseBooleanConverter}}"/>
                         </DockPanel>
                     </GroupBox>
-                    <GroupBox DockPanel.Dock="Top" Header="Test Status" HorizontalAlignment="Stretch" Margin="5,0,5,0">
+                    <GroupBox DockPanel.Dock="Top" Header="Status" HorizontalAlignment="Stretch" Margin="5,0,5,0">
                         <DockPanel Margin="5,5,5,5">
                             <Grid DockPanel.Dock="Top">
                                 <TextBlock Text="Duration" HorizontalAlignment="Left"/>
@@ -179,10 +179,7 @@
                     </GroupBox>
                 </DockPanel>
             </TabItem>
-            <TabItem Header="History">
-                <Grid/>
-            </TabItem>
-            <TabItem Header="About">
+            <TabItem Header="History" IsEnabled="False">
                 <Grid/>
             </TabItem>
         </TabControl>
